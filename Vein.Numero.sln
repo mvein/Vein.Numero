@@ -9,6 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{967BC4DA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vein.Numero", "src\Vein.Numero\Vein.Numero.csproj", "{3A62C114-1EF9-4220-8624-C90665E046F5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vein.Numero.Tests", "tests\Vein.Numero.Tests\Vein.Numero.Tests.csproj", "{E42113C0-5733-4560-8B87-4C7D91D77D06}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,12 +21,17 @@ Global
 		{3A62C114-1EF9-4220-8624-C90665E046F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A62C114-1EF9-4220-8624-C90665E046F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A62C114-1EF9-4220-8624-C90665E046F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E42113C0-5733-4560-8B87-4C7D91D77D06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E42113C0-5733-4560-8B87-4C7D91D77D06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E42113C0-5733-4560-8B87-4C7D91D77D06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E42113C0-5733-4560-8B87-4C7D91D77D06}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3A62C114-1EF9-4220-8624-C90665E046F5} = {7A321137-71FE-425B-AE14-D4F93CA72DBB}
+		{E42113C0-5733-4560-8B87-4C7D91D77D06} = {967BC4DA-342E-428C-867A-DE1ECF4222BE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A817D5FF-C8BD-44F0-A0DB-ED713C1F127D}
