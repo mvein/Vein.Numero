@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
 using System;
+using System.Collections;
 using Vein.Numero.Converters;
 
 namespace Vein.Numero.Tests.Converters
@@ -8,18 +9,10 @@ namespace Vein.Numero.Tests.Converters
     [TestFixture]
     public class Numero0To10ConverterTests
     {
-        [TestCase(0)]
-        [TestCase(1)]
-        [TestCase(2)]
-        [TestCase(3)]
-        [TestCase(4)]
-        [TestCase(5)]
-        [TestCase(6)]
-        [TestCase(7)]
-        [TestCase(8)]
-        [TestCase(9)]
-        [TestCase(10)]
-        public void CanConvert_WhenCalledAndNumberIsInRange_TrueAsResultExpected(int number)
+        [Test,
+         TestCaseSource(typeof(Numero0To10ConverterTestsTestCaseSource),
+         nameof(Numero0To10ConverterTestsTestCaseSource.TestCases))]
+        public void CanConvert_WhenCalledAndNumberIsInRange_TrueAsResultExpected(int number, string _)
         {
             // ARRANGE
             var sut = new Numero0To10Converter(number);
@@ -45,17 +38,9 @@ namespace Vein.Numero.Tests.Converters
             actual.Should().BeFalse();
         }
 
-        [TestCase(0, "zero")]
-        [TestCase(1, "jeden")]
-        [TestCase(2, "dwa")]
-        [TestCase(3, "trzy")]
-        [TestCase(4, "cztery")]
-        [TestCase(5, "pięć")]
-        [TestCase(6, "sześć")]
-        [TestCase(7, "siedem")]
-        [TestCase(8, "osiem")]
-        [TestCase(9, "dziewięć")]
-        [TestCase(10, "dziesięć")]
+        [Test,
+         TestCaseSource(typeof(Numero0To10ConverterTestsTestCaseSource),
+         nameof(Numero0To10ConverterTestsTestCaseSource.TestCases))]
         public void Convert_WhenCalledAndNumberIsInRange_ProperResultExpected(int number, string expected)
         {
             // ARRANGE
@@ -81,5 +66,27 @@ namespace Vein.Numero.Tests.Converters
             // ASSERT
             act.Should().Throw<ArgumentOutOfRangeException>();
         }
+    }
+
+    internal class Numero0To10ConverterTestsTestCaseSource
+    {
+        public static IEnumerable TestCases
+        {
+            get
+            {
+                yield return new TestCaseData(0, "zero");
+                yield return new TestCaseData(1, "jeden");
+                yield return new TestCaseData(2, "dwa");
+                yield return new TestCaseData(3, "trzy");
+                yield return new TestCaseData(4, "cztery");
+                yield return new TestCaseData(5, "pięć");
+                yield return new TestCaseData(6, "sześć");
+                yield return new TestCaseData(7, "siedem");
+                yield return new TestCaseData(8, "osiem");
+                yield return new TestCaseData(9, "dziewięć");
+                yield return new TestCaseData(10, "dziesięć");
+            }
+        }
+            
     }
 }

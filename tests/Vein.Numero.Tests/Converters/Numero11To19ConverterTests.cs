@@ -2,6 +2,7 @@
 using NSubstitute;
 using NUnit.Framework;
 using System;
+using System.Collections;
 using Vein.Numero.Abstractions;
 using Vein.Numero.Converters;
 
@@ -10,18 +11,10 @@ namespace Vein.Numero.Tests.Converters
     [TestFixture]
     public class Numero11To19ConverterTests
     {
-        [TestCase(0)]
-        [TestCase(1)]
-        [TestCase(2)]
-        [TestCase(3)]
-        [TestCase(4)]
-        [TestCase(5)]
-        [TestCase(6)]
-        [TestCase(7)]
-        [TestCase(8)]
-        [TestCase(9)]
-        [TestCase(10)]
-        public void CanConvert_WhenCalledAndNumberIsInRange_TrueAsResultExpected(int number)
+        [Test,
+         TestCaseSource(typeof(Numero11To19ConverterTestsTestCaseSource),
+         nameof(Numero11To19ConverterTestsTestCaseSource.TestCases))]
+        public void CanConvert_WhenCalledAndNumberIsInRange_TrueAsResultExpected(int number, string _)
         {
             // ARRANGE
             var factory = Substitute.For<IConverterFactory>();
@@ -34,8 +27,8 @@ namespace Vein.Numero.Tests.Converters
             actual.Should().BeTrue();
         }
 
-        [TestCase(-1)]
-        [TestCase(11)]
+        [TestCase(10)]
+        [TestCase(20)]
         public void CanConvert_WhenCalledAndNumberIsOutOfRange_FalseAsResultExpected(int number)
         {
             // ARRANGE
@@ -49,21 +42,15 @@ namespace Vein.Numero.Tests.Converters
             actual.Should().BeFalse();
         }
 
-        [TestCase(11, "jedenaście")]
-        [TestCase(12, "dwanaście")]
-        [TestCase(13, "trzynaście")]
-        [TestCase(14, "czternaście")]
-        [TestCase(15, "pięnaście")]
-        [TestCase(16, "szesnaście")]
-        [TestCase(17, "siedemnaście")]
-        [TestCase(18, "osiemnaście")]
-        [TestCase(19, "dziewiętnaście")]
+        [Test,
+         TestCaseSource(typeof(Numero11To19ConverterTestsTestCaseSource),
+         nameof(Numero11To19ConverterTestsTestCaseSource.TestCases))]
         public void Convert_WhenCalledAndNumberIsInRange_ProperResultExpected(int number, string expected)
         {
             // ARRANGE
             var factory = Substitute.For<IConverterFactory>();
             var converter = Substitute.For<IConverterFactory>();
-            factory.GetConverter(Arg.Any<int>()).Returns(x => new InternalConverter(x.ArgAt<int>(0)));
+            factory.GetConverter(Arg.Any<int>()).Returns(x => new Numero11To19InternalConverter(x.ArgAt<int>(0)));
             var sut = new Numero11To19Converter(number, factory);
 
             // ACT            
@@ -89,11 +76,11 @@ namespace Vein.Numero.Tests.Converters
         }
     }
 
-    internal class InternalConverter : INumeroConverter
+    internal class Numero11To19InternalConverter : INumeroConverter
     {
         private readonly int _number;
 
-        public InternalConverter(int number)
+        public Numero11To19InternalConverter(int number)
         {
             _number = number;
         }
@@ -120,6 +107,25 @@ namespace Vein.Numero.Tests.Converters
                 default:
                     throw new ArgumentOutOfRangeException();
             };
+        }
+    }
+
+    internal class Numero11To19ConverterTestsTestCaseSource
+    {
+        public static IEnumerable TestCases
+        {
+            get
+            {
+                yield return new TestCaseData(11, "jedenaście");
+                yield return new TestCaseData(12, "dwanaście");
+                yield return new TestCaseData(13, "trzynaście");
+                yield return new TestCaseData(14, "czternaście");
+                yield return new TestCaseData(15, "piętnaście");
+                yield return new TestCaseData(16, "szesnaście");
+                yield return new TestCaseData(17, "siedemnaście");
+                yield return new TestCaseData(18, "osiemnaście");
+                yield return new TestCaseData(19, "dziewiętnaście");
+            }
         }
     }
 }
