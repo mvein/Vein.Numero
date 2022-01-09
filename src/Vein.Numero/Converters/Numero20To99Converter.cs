@@ -111,7 +111,7 @@ namespace Vein.Numero.Converters
 
         private string Convert40()
         {
-            return "czterdzieści";
+            return Consts.Number._40;
         }
 
         private string Convert5060708090(int number)

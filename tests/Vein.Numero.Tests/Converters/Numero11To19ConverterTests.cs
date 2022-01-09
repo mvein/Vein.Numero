@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using Vein.Numero.Abstractions;
 using Vein.Numero.Converters;
+using Vein.Numero.Tests.Helpers;
 
 namespace Vein.Numero.Tests.Converters
 {
@@ -50,7 +51,7 @@ namespace Vein.Numero.Tests.Converters
             // ARRANGE
             var factory = Substitute.For<IConverterFactory>();
             var converter = Substitute.For<IConverterFactory>();
-            factory.GetConverter(Arg.Any<int>()).Returns(x => new Numero11To19InternalConverter(x.ArgAt<int>(0)));
+            factory.GetConverter(Arg.Any<int>()).Returns(x => NumeroInternalConverterFactory.Create(x.ArgAt<int>(0)));
             var sut = new Numero11To19Converter(number, factory);
 
             // ACT            
@@ -73,40 +74,6 @@ namespace Vein.Numero.Tests.Converters
 
             // ASSERT
             act.Should().Throw<ArgumentOutOfRangeException>();
-        }
-    }
-
-    internal class Numero11To19InternalConverter : INumeroConverter
-    {
-        private readonly int _number;
-
-        public Numero11To19InternalConverter(int number)
-        {
-            _number = number;
-        }
-
-        public bool CanConvert()
-        {
-            throw new NotImplementedException();
-        }
-
-        public string Convert()
-        {
-            switch (_number)
-            {
-                case 1:
-                    return "jeden";
-                case 2:
-                    return "dwa";
-                case 3:
-                    return "trzy";
-                case 7:
-                    return "siedem";
-                case 8:
-                    return "osiem";
-                default:
-                    throw new ArgumentOutOfRangeException();
-            };
         }
     }
 

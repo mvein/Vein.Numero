@@ -32,11 +32,11 @@ namespace Vein.Numero.Converters
                     converter = _factory.GetConverter(3);
                     return $"{converter.Convert()}naście";
                 case 14:
-                    return "czternaście";
+                    return Consts.Number._14;
                 case 15:
-                    return "piętnaście";
+                    return Consts.Number._15;
                 case 16:
-                    return "szesnaście";
+                    return Consts.Number._16;
                 case 17:
                     converter = _factory.GetConverter(7);
                     return $"{converter.Convert()}naście";
@@ -44,7 +44,7 @@ namespace Vein.Numero.Converters
                     converter = _factory.GetConverter(8);
                     return $"{converter.Convert()}naście";                    
                 case 19:
-                    return "dziewiętnaście";
+                    return Consts.Number._19;
                 default:
                     throw new ArgumentOutOfRangeException(Number.ToString());
             }
