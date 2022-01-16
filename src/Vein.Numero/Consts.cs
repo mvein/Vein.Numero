@@ -21,6 +21,7 @@
             internal const string _19 = "dziewiętnaście";
             internal const string _40 = "czterdzieści";
             internal const string _100 = "sto";
+            internal const string _200 = "dwieście";
         }
     }
 }

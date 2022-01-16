@@ -7,7 +7,7 @@ using Vein.Numero.Converters;
 
 namespace Vein.Numero.Tests
 {
-    [TestFixture]
+    [TestFixture(Category = "Unit")]
     public class ConverterFactoryTests
     {
         private ContainerBuilder _builder;
@@ -18,6 +18,7 @@ namespace Vein.Numero.Tests
         {
             _builder = new ContainerBuilder();
 
+            // TODO: extend registration with new converters
             _builder.RegisterType<Numero0To10Converter>()
                    .Keyed<INumeroConverter>(nameof(Numero0To10Converter))
                    .WithMetadata<NumeroConverterMetadata>(m => m.For(ncm => ncm.Key, nameof(Numero0To10Converter)))
@@ -36,7 +37,7 @@ namespace Vein.Numero.Tests
         }
 
         [Test]
-        public void GetConverter_WhenExists_ProperConverterExpected()
+        public void GetConverter_WhenExists_ProperConverterExpected() // TODO: make test as generic in order to support all available converters
         {
             // ARRANGE
             var factory = _container.Resolve<IConverterFactory>();
@@ -49,7 +50,7 @@ namespace Vein.Numero.Tests
         }
 
         [Test]
-        public void GetConverter_WhenDoesNotExists_NotSupportedExceptionExpected()
+        public void GetConverter_WhenDoesNotExists_NotSupportedExceptionExpected() // TODO: change test as there is a wider range of supported numbers
         {
             // ARRANGE
             var factory = _container.Resolve<IConverterFactory>();
@@ -58,5 +59,7 @@ namespace Vein.Numero.Tests
             // ACT & ASSERT
             action.Should().Throw<NotSupportedException>().WithMessage("There is no converter that can convert given number: '11'.");
         }
-    }    
+    }
+
+    // TODO: create (integration?) test which check wether number can be converted within real infrastructure
 }

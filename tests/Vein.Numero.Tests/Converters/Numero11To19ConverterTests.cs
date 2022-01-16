@@ -3,14 +3,13 @@ using NSubstitute;
 using NUnit.Framework;
 using System;
 using System.Collections;
-using Vein.Numero.Abstractions;
 using Vein.Numero.Converters;
 using Vein.Numero.Tests.Helpers;
 
 namespace Vein.Numero.Tests.Converters
 {
-    [TestFixture]
-    public class Numero11To19ConverterTests
+    [TestFixture(Category = "Unit")]
+    public class Numero11To19ConverterTests : NumeroConverterTests<Numero11To19Converter>
     {
         [Test,
          TestCaseSource(typeof(Numero11To19ConverterTestsTestCaseSource),
@@ -18,8 +17,7 @@ namespace Vein.Numero.Tests.Converters
         public void CanConvert_WhenCalledAndNumberIsInRange_TrueAsResultExpected(int number, string _)
         {
             // ARRANGE
-            var factory = Substitute.For<IConverterFactory>();
-            var sut = new Numero11To19Converter(number, factory);
+            var sut = CreateSut(number);
 
             // ACT
             var actual = sut.CanConvert();
@@ -33,8 +31,7 @@ namespace Vein.Numero.Tests.Converters
         public void CanConvert_WhenCalledAndNumberIsOutOfRange_FalseAsResultExpected(int number)
         {
             // ARRANGE
-            var factory = Substitute.For<IConverterFactory>();
-            var sut = new Numero11To19Converter(number, factory);
+            var sut = CreateSut(number);
 
             // ACT            
             var actual = sut.CanConvert();
@@ -49,10 +46,10 @@ namespace Vein.Numero.Tests.Converters
         public void Convert_WhenCalledAndNumberIsInRange_ProperResultExpected(int number, string expected)
         {
             // ARRANGE
-            var factory = Substitute.For<IConverterFactory>();
-            var converter = Substitute.For<IConverterFactory>();
-            factory.GetConverter(Arg.Any<int>()).Returns(x => NumeroInternalConverterFactory.Create(x.ArgAt<int>(0)));
-            var sut = new Numero11To19Converter(number, factory);
+            Factory.GetConverter(Arg.Any<int>())
+                .Returns(x => NumeroInternalConverterFactory.Create(x.ArgAt<int>(0)));
+
+            var sut = CreateSut(number);
 
             // ACT            
             var actual = sut.Convert();
@@ -66,8 +63,7 @@ namespace Vein.Numero.Tests.Converters
         public void Convert_WhenCalledAndNumberIsOutOfRange_ArgumentOutOfRangeExceptionExpected(int number)
         {
             // ARRANGE
-            var factory = Substitute.For<IConverterFactory>();
-            var sut = new Numero11To19Converter(number, factory);
+            var sut = CreateSut(number);
 
             // ACT            
             Action act = () => sut.Convert();
@@ -83,15 +79,15 @@ namespace Vein.Numero.Tests.Converters
         {
             get
             {
-                yield return new TestCaseData(11, "jedenaście");
-                yield return new TestCaseData(12, "dwanaście");
-                yield return new TestCaseData(13, "trzynaście");
-                yield return new TestCaseData(14, "czternaście");
-                yield return new TestCaseData(15, "piętnaście");
-                yield return new TestCaseData(16, "szesnaście");
-                yield return new TestCaseData(17, "siedemnaście");
-                yield return new TestCaseData(18, "osiemnaście");
-                yield return new TestCaseData(19, "dziewiętnaście");
+                yield return new TestCaseData(11, NumeroHelper.Number._11);
+                yield return new TestCaseData(12, NumeroHelper.Number._12);
+                yield return new TestCaseData(13, NumeroHelper.Number._13);
+                yield return new TestCaseData(14, NumeroHelper.Number._14);
+                yield return new TestCaseData(15, NumeroHelper.Number._15);
+                yield return new TestCaseData(16, NumeroHelper.Number._16);
+                yield return new TestCaseData(17, NumeroHelper.Number._17);
+                yield return new TestCaseData(18, NumeroHelper.Number._18);
+                yield return new TestCaseData(19, NumeroHelper.Number._19);                
             }
         }
     }

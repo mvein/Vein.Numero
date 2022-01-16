@@ -7,8 +7,12 @@
             internal const string _11 = "jedenaście";
             internal const string _12 = "dwanaście";
             internal const string _13 = "trzynaście";
+            internal const string _14 = "czternaście";
+            internal const string _15 = "piętnaście";
+            internal const string _16 = "szesnaście";
             internal const string _17 = "siedemnaście";
             internal const string _18 = "osiemnaście";
+            internal const string _19 = "dziewiętnaście";
             internal const string _20 = "dwadzieścia";
             internal const string _21 = "dwadzieścia jeden";
             internal const string _22 = "dwadzieścia dwa";

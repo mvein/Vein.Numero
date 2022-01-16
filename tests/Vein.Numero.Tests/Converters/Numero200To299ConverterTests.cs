@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using NSubstitute;
 using NUnit.Framework;
 using System;
 using System.Collections;
@@ -7,11 +8,11 @@ using Vein.Numero.Tests.Helpers;
 
 namespace Vein.Numero.Tests.Converters
 {
-    public class Numero0To10ConverterTests : NumeroConverterTests<Numero0To10Converter>
+    public class Numero200To299ConverterTests : NumeroConverterTests<Numero200To299Converter>
     {
         [Test,
-         TestCaseSource(typeof(Numero0To10ConverterTestsTestCaseSource),
-         nameof(Numero0To10ConverterTestsTestCaseSource.TestCases))]
+         TestCaseSource(typeof(Numero200To299ConverterTestsTestCaseSource),
+         nameof(Numero200To299ConverterTestsTestCaseSource.TestCases))]
         public void CanConvert_WhenCalledAndNumberIsInRange_TrueAsResultExpected(int number, string _)
         {
             // ARRANGE
@@ -24,8 +25,8 @@ namespace Vein.Numero.Tests.Converters
             actual.Should().BeTrue();
         }
 
-        [TestCase(-1)]
-        [TestCase(11)]
+        [TestCase(199)]
+        [TestCase(300)]
         public void CanConvert_WhenCalledAndNumberIsOutOfRange_FalseAsResultExpected(int number)
         {
             // ARRANGE
@@ -39,11 +40,14 @@ namespace Vein.Numero.Tests.Converters
         }
 
         [Test,
-         TestCaseSource(typeof(Numero0To10ConverterTestsTestCaseSource),
-         nameof(Numero0To10ConverterTestsTestCaseSource.TestCases))]
+         TestCaseSource(typeof(Numero200To299ConverterTestsTestCaseSource),
+         nameof(Numero200To299ConverterTestsTestCaseSource.TestCases))]
         public void Convert_WhenCalledAndNumberIsInRange_ProperResultExpected(int number, string expected)
         {
             // ARRANGE
+            Factory.GetConverter(Arg.Any<int>())
+                .Returns(x => NumeroInternalConverterFactory.Create(x.ArgAt<int>(0)));
+
             var sut = CreateSut(number);
 
             // ACT            
@@ -53,8 +57,8 @@ namespace Vein.Numero.Tests.Converters
             actual.Should().BeEquivalentTo(expected);
         }
 
-        [TestCase(-1)]
-        [TestCase(11)]
+        [TestCase(199)]
+        [TestCase(300)]
         public void Convert_WhenCalledAndNumberIsOutOfRange_ArgumentOutOfRangeExceptionExpected(int number)
         {
             // ARRANGE
@@ -66,32 +70,21 @@ namespace Vein.Numero.Tests.Converters
             // ASSERT
             act.Should().Throw<ArgumentOutOfRangeException>();
         }
-
-        public override Numero0To10Converter CreateSut(int number)
-        {
-            return new Numero0To10Converter(number);
-        }
     }
 
-    internal class Numero0To10ConverterTestsTestCaseSource
+    internal class Numero200To299ConverterTestsTestCaseSource
     {
         public static IEnumerable TestCases
         {
             get
             {
-                yield return new TestCaseData(0, "zero");
-                yield return NumeroConverterTestsTestCaseSource.CreateTestCaseData(1);
-                yield return NumeroConverterTestsTestCaseSource.CreateTestCaseData(2);
-                yield return NumeroConverterTestsTestCaseSource.CreateTestCaseData(3);
-                yield return NumeroConverterTestsTestCaseSource.CreateTestCaseData(4);
-                yield return NumeroConverterTestsTestCaseSource.CreateTestCaseData(5);
-                yield return NumeroConverterTestsTestCaseSource.CreateTestCaseData(6);
-                yield return NumeroConverterTestsTestCaseSource.CreateTestCaseData(7);
-                yield return NumeroConverterTestsTestCaseSource.CreateTestCaseData(8);
-                yield return NumeroConverterTestsTestCaseSource.CreateTestCaseData(9);
-                yield return NumeroConverterTestsTestCaseSource.CreateTestCaseData(10);
+                yield return new TestCaseData(200, "dwieście");
+
+                for (int number = 1; number < 100; number++)
+                {
+                    yield return NumeroConverterTestsTestCaseSource.CreateTestCaseData(number, 200, "dwieście ");
+                }
             }
         }
-            
     }
 }
