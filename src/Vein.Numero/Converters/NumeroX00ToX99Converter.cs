@@ -5,34 +5,43 @@ namespace Vein.Numero.Converters
 {
     public abstract class NumeroX00ToX99Converter : NumeroConverter
     {
-        private readonly int _rangeFrom;
+        protected readonly int RangeFrom;
         private readonly int _rangeTo;
+
+        protected readonly IConverterFactory Factory;
 
         protected NumeroX00ToX99Converter(
             int number,
             int rangeFrom,
-            int rangeTo) : base(number)
+            int rangeTo,
+            IConverterFactory factory) : base(number)
         {
-            _rangeFrom = rangeFrom;
+            RangeFrom = rangeFrom;
             _rangeTo = rangeTo;
+            Factory = factory;
         }
 
         public override bool CanConvert()
         {
-            return Number >= _rangeFrom && Number <= _rangeTo;
+            return Number >= RangeFrom && Number <= _rangeTo;
         }
 
         public override string Convert()
         {
             return Number switch
             {
-                _ when Number == _rangeFrom => ConvertRangeFrom(),
-                _ when Number > _rangeFrom && Number <= _rangeTo => ConvertRange(Number),
+                _ when Number == RangeFrom => ConvertRangeFrom(),
+                _ when Number > RangeFrom && Number <= _rangeTo => ConvertRange(),
                 _ => throw new ArgumentOutOfRangeException(Number.ToString()),
             };
         }
 
-        protected abstract string ConvertRange(int number);
+        protected virtual string ConvertRange()
+        {
+            var converter = Factory.GetConverter(Number % RangeFrom);
+
+            return $"{ConvertRangeFrom()} {converter.Convert()}";
+        }
 
         protected abstract string ConvertRangeFrom();
     }
